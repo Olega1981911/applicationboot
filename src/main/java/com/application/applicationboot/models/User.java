@@ -14,10 +14,10 @@ public class User {
     private long id;
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
-    @Column
-    private String name;
+    @Column(name = "username")
+    private String username;
     @Min(value = 0, message = "Age should be greater than 0")
-    @Column
+    @Column(name = "age")
     private int age;
 
     @NotEmpty(message = "Email should not be empty")
@@ -27,8 +27,8 @@ public class User {
     public User() {
     }
 
-    public User(String name, int age, String email) {
-        this.name = name;
+    public User(String username, int age, String email) {
+        this.username = username;
         this.age = age;
         this.email = email;
     }
@@ -42,11 +42,11 @@ public class User {
     }
 
     public String getName() {
-        return name;
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String username) {
+        this.username = username;
     }
 
     public int getAge() {
@@ -69,7 +69,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + username + '\'' +
                 ", age=" + age +
                 ", email='" + email + '\'' +
                 '}';

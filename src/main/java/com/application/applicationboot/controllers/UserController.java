@@ -4,7 +4,7 @@ package com.application.applicationboot.controllers;
 
 
 import com.application.applicationboot.models.User;
-import com.application.applicationboot.services.UserServices;
+import com.application.applicationboot.services.UserServicesImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,55 +14,56 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/")
 public class UserController {
-    private final UserServices userServices;
+    private final UserServicesImp userServicesImp;
 
     @Autowired
-    public UserController(UserServices userServices) {
-        this.userServices = userServices;
+    public UserController(UserServicesImp userServicesImp) {
+        this.userServicesImp = userServicesImp;
     }
 
-    @GetMapping("/users")
+    @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("users", userServices.findAll());
-        return "/index";
+        model.addAttribute("users", userServicesImp.findAll());
+        return "users/index";
     }
 
 
 
     @GetMapping("/new")
     public String newPerson(@ModelAttribute("users") User user) {
-        return "new";
+        return "users/new";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") long id) {
-        model.addAttribute("users", userServices.findOne(id));
-        return "/edit";
+        model.addAttribute("users", userServicesImp.findOne(id));
+        return "users/edit";
     }
+
 
     @PostMapping()
     public String create(@ModelAttribute("users") @Valid User user,
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            return "/new";
+            return "users/new";
 
-        userServices.saveUser(user);
-        return "redirect:/users";
+        userServicesImp.saveUser(user);
+        return "redirect:/index";
     }
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("users") @Valid User user, BindingResult bindingResult,
                          @PathVariable("id") long id) {
         if (bindingResult.hasErrors())
-            return "/edit";
+            return "users/edit";
 
-        userServices.update(id, user);
-        return "redirect:/users";
+        userServicesImp.update(id, user);
+        return "redirect:/index";
     }
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") Long id) {
-        userServices.deleteUser(id);
-        return "redirect:/users";
+        userServicesImp.deleteUser(id);
+        return "redirect:/index";
     }
 }
