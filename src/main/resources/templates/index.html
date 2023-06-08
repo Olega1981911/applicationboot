@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+<div>
+    <div>
+        <div>
+            <h1>CRUD App</h1>
+            <p>User list</p>
+        </div>
+    </div>
+</div>
+<div th:switch="${users}">
+    <h2 th:case="null">Users not found</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>AGE</th>
+            <th>E-MAIL</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}">id</td>
+            <td th:text="${user.name}">name</td>
+            <td th:text="${user.age}">age</td>
+            <td th:text="${user.email}">email</td>
+            <td>
+                <button type="submit">
+                    <a th:action="@{/{id}/edit(id=${user.getId()})}">Edit</a>
+                </button>
+
+            </td>
+            <td>
+                <form th:method="DELETE" th:action="@{/delete/{id}(id=${user.getId()})}" th:object="${users}">
+                    <input type="hidden" name="id" th:value="${user.getId()}">
+                    <button type="submit">delete</button>
+                </form>
+
+            </td>
+
+        </tr>
+    </table>
+    <br/>
+
+    <hr/>
+    <div>
+        <div>
+            <button onclick="window.location.href ='new'"><span>Create new user</span>
+            </button>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

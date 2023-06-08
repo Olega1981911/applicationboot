@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -23,31 +24,32 @@ public class UserController {
         this.userServicesImp = userServicesImp;
     }
 
-    @GetMapping("/")
+    @GetMapping("/index")
     public String index(Model model) {
-        model.addAttribute("users", userServicesImp.findAll());
-        return "users/index";
+        List<User> users = userServicesImp.findAll();
+        model.addAttribute("users", users);
+        return "index";
     }
 
 
 
     @GetMapping("/new")
     public String newPerson(@ModelAttribute("users") User user) {
-        return "users/new";
+        return "new";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") long id) {
-        model.addAttribute("users", userServicesImp.findOne(id));
-        return "users/edit";
+        model.addAttribute("user", userServicesImp.findOne(id));
+        return "edit";
     }
 
 
-    @PostMapping()
+    @PostMapping("/new")
     public String create(@ModelAttribute("users") @Valid User user,
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            return "users/new";
+            return "new";
 
         userServicesImp.saveUser(user);
         return "redirect:/index";
@@ -56,12 +58,12 @@ public class UserController {
     public String update(@ModelAttribute("users") @Valid User user, BindingResult bindingResult,
                          @PathVariable("id") long id) {
         if (bindingResult.hasErrors())
-            return "users/edit";
+            return "edit";
 
         userServicesImp.update(id, user);
         return "redirect:/index";
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("delete/{id}")
     public String delete(@PathVariable("id") Long id) {
         userServicesImp.deleteUser(id);
         return "redirect:/index";

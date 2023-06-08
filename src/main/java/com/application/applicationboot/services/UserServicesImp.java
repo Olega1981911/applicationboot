@@ -22,9 +22,7 @@ public class UserServicesImp implements UserService {
         this.userRepository = userRepository;
     }
 
-    public User getUserByUsername(String username) {
-        return userRepository.getUserByUsername(username);
-    }
+
 
     @Override
     @Transactional
