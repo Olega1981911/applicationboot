@@ -1,8 +1,6 @@
 package com.application.applicationboot.controllers;
 
 
-
-
 import com.application.applicationboot.models.User;
 import com.application.applicationboot.services.UserServicesImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,18 +30,18 @@ public class UserController {
     }
 
 
-
-    @GetMapping("/new")
-    public String newPerson(@ModelAttribute("users") User user) {
-        return "new";
-    }
-
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") long id) {
         model.addAttribute("user", userServicesImp.findOne(id));
         return "edit";
     }
 
+    @GetMapping("/new")
+    public String newPerson(Model model) {
+        User newuser = new User();
+        model.addAttribute("users", newuser);
+        return "new";
+    }
 
     @PostMapping("/new")
     public String create(@ModelAttribute("users") @Valid User user,
@@ -52,20 +50,22 @@ public class UserController {
             return "new";
 
         userServicesImp.saveUser(user);
-        return "redirect:/index";
+        return "redirect:index";
     }
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("users") @Valid User user, BindingResult bindingResult,
+
+    @PatchMapping("/{id}/edit")
+    public String update(@ModelAttribute("person") @Valid User user, BindingResult bindingResult,
                          @PathVariable("id") long id) {
         if (bindingResult.hasErrors())
             return "edit";
 
         userServicesImp.update(id, user);
-        return "redirect:/index";
+        return "redirect:index";
     }
-    @DeleteMapping("delete/{id}")
+
+    @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") Long id) {
         userServicesImp.deleteUser(id);
-        return "redirect:/index";
+        return "redirect:index";
     }
 }

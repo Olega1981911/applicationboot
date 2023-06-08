@@ -14,8 +14,8 @@
         </div>
     </div>
 </div>
-<div th:switch="${users}">
-    <h2 th:case="null">Users not found</h2>
+<div>
+
     <table>
         <thead>
         <tr>
@@ -34,13 +34,13 @@
             <td th:text="${user.age}">age</td>
             <td th:text="${user.email}">email</td>
             <td>
-                <button type="submit">
+                <button type="submit" th:object="${user}">
                     <a th:action="@{/{id}/edit(id=${user.getId()})}">Edit</a>
                 </button>
 
             </td>
             <td>
-                <form th:method="DELETE" th:action="@{/delete/{id}(id=${user.getId()})}" th:object="${users}">
+                <form th:method="DELETE" th:action="@{/{id}(id=${user.getId()})}" th:object="${users}">
                     <input type="hidden" name="id" th:value="${user.getId()}">
                     <button type="submit">delete</button>
                 </form>
