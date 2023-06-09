@@ -6,52 +6,48 @@
     <title>Index</title>
 </head>
 <body>
-<div>
-    <div>
-        <div>
-            <h1>CRUD App</h1>
-            <p>User list</p>
-        </div>
+<div th:switch="${users}">
+    <h2 th:case="null">No users yet!</h2>
+    <div th:case="*">
+        <h2>Users</h2>
+
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>AGE</th>
+                <th>E-MAIL</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}">id</td>
+                <td th:text="${user.name}">name</td>
+                <td th:text="${user.age}">age</td>
+                <td th:text="${user.email}">email</td>
+                <td>
+                    <button type="submit" th:object="${user}">
+                        <a th:action="@{/{id}/edit(id=${user.getId()})}">Edit</a>
+                    </button>
+
+                </td>
+                <td>
+                    <form th:method="DELETE" th:action="@{/delete/{id}(id=${user.id})}" th:object="${users}">
+                        <input type="hidden" name="id" th:value="${user.id}">
+                        <button type="submit">delete</button>
+                    </form>
+
+                </td>
+
+            </tr>
+        </table>
+        <br/>
+
+        <hr/>
     </div>
-</div>
-<div>
-
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>NAME</th>
-            <th>AGE</th>
-            <th>E-MAIL</th>
-            <th>Update</th>
-            <th>Delete</th>
-        </tr>
-        </thead>
-
-        <tr th:each="user : ${users}">
-            <td th:text="${user.id}">id</td>
-            <td th:text="${user.name}">name</td>
-            <td th:text="${user.age}">age</td>
-            <td th:text="${user.email}">email</td>
-            <td>
-                <button type="submit" th:object="${user}">
-                    <a th:action="@{/{id}/edit(id=${user.getId()})}">Edit</a>
-                </button>
-
-            </td>
-            <td>
-                <form th:method="DELETE" th:action="@{/{id}(id=${user.getId()})}" th:object="${users}">
-                    <input type="hidden" name="id" th:value="${user.getId()}">
-                    <button type="submit">delete</button>
-                </form>
-
-            </td>
-
-        </tr>
-    </table>
-    <br/>
-
-    <hr/>
     <div>
         <div>
             <button onclick="window.location.href ='new'"><span>Create new user</span>

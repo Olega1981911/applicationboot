@@ -38,19 +38,17 @@ public class UserController {
 
     @GetMapping("/new")
     public String newPerson(Model model) {
-        User newuser = new User();
-        model.addAttribute("users", newuser);
+        model.addAttribute("person", new User());
         return "new";
     }
 
-    @PostMapping("/new")
-    public String create(@ModelAttribute("users") @Valid User user,
-                         BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
+    @PostMapping("/adduser")
+    public String create(@ModelAttribute("person") @Valid User user, BindingResult result) {
+        if (result.hasErrors())
             return "new";
 
         userServicesImp.saveUser(user);
-        return "redirect:index";
+        return "redirect:/index";
     }
 
     @PatchMapping("/{id}/edit")
@@ -60,12 +58,12 @@ public class UserController {
             return "edit";
 
         userServicesImp.update(id, user);
-        return "redirect:index";
+        return "redirect:/index";
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id) {
         userServicesImp.deleteUser(id);
-        return "redirect:index";
+        return "redirect:/index";
     }
 }
