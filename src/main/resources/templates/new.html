@@ -6,7 +6,7 @@
     <title>New User</title>
 </head>
 <body>
-<form th:method="POST" th:action="@{/adduser}" th:object="${person}" action="#">
+<form th:method="POST" th:action="@{/index}" th:object="${person}">
     <input type="hidden" name="_method" value="post"/>
     <label for="name">Enter name: </label>
     <input type="text" th:field="*{name}" id="name"/>

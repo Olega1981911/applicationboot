@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -33,7 +34,8 @@ public class UserServicesImp implements UserService {
 
     @Override
     public User findOne(long id) {
-        return userRepository.findById(id).orElse(null);
+        Optional<User> user = userRepository.findById(id);
+        return user.orElse(new User());
     }
 
     @Override

@@ -24,25 +24,25 @@ public class UserController {
 
     @GetMapping("/index")
     public String index(Model model) {
-        List<User> users = userServicesImp.findAll();
-        model.addAttribute("users", users);
+        model.addAttribute("users", userServicesImp.findAll());
         return "index";
     }
 
 
-    @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") long id) {
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") long id,Model model) {
         model.addAttribute("user", userServicesImp.findOne(id));
         return "edit";
     }
 
     @GetMapping("/new")
     public String newPerson(Model model) {
-        model.addAttribute("person", new User());
+        User newuser = new User();
+        model.addAttribute("person", newuser);
         return "new";
     }
 
-    @PostMapping("/adduser")
+    @PostMapping("/index")
     public String create(@ModelAttribute("person") @Valid User user, BindingResult result) {
         if (result.hasErrors())
             return "new";
@@ -51,13 +51,13 @@ public class UserController {
         return "redirect:/index";
     }
 
-    @PatchMapping("/{id}/edit")
+    @PatchMapping("/{id}")
     public String update(@ModelAttribute("person") @Valid User user, BindingResult bindingResult,
                          @PathVariable("id") long id) {
         if (bindingResult.hasErrors())
             return "edit";
 
-        userServicesImp.update(id, user);
+        userServicesImp.update(id,user);
         return "redirect:/index";
     }
 

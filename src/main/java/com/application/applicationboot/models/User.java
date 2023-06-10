@@ -21,7 +21,7 @@ public class User {
     private int age;
 
     @NotEmpty(message = "Email should not be empty")
-    @Column(name = "email")
+    @Email
     private String email;
 
     public User() {
