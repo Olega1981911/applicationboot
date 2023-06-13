@@ -1,10 +1,7 @@
 package com.application.applicationboot.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "users")
@@ -16,18 +13,19 @@ public class User {
     @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
     @Column(name = "username")
     private String username;
+
     @Min(value = 0, message = "Age should be greater than 0")
     @Column(name = "age")
-    private int age;
+    private Byte age;
 
-    @NotEmpty(message = "Email should not be empty")
-    @Email
+    @NotBlank(message = "Email is mandatory")
+    @Email(message = "Email should be valid")
     private String email;
 
     public User() {
     }
 
-    public User(String username, int age, String email) {
+    public User(String username, Byte age, String email) {
         this.username = username;
         this.age = age;
         this.email = email;
@@ -49,11 +47,11 @@ public class User {
         this.username = username;
     }
 
-    public int getAge() {
+    public Byte getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Byte age) {
         this.age = age;
     }
 

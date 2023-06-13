@@ -35,6 +35,7 @@ public class UserController {
         return "edit";
     }
 
+
     @GetMapping("/new")
     public String newPerson(Model model) {
         User newuser = new User();
@@ -42,20 +43,20 @@ public class UserController {
         return "new";
     }
 
-    @PostMapping("/index")
+    @PostMapping("/adduser")
     public String create(@ModelAttribute("person") @Valid User user, BindingResult result) {
         if (result.hasErrors())
-            return "new";
+            return "/new";
 
         userServicesImp.saveUser(user);
         return "redirect:/index";
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/edit/{id}")
     public String update(@ModelAttribute("person") @Valid User user, BindingResult bindingResult,
                          @PathVariable("id") long id) {
         if (bindingResult.hasErrors())
-            return "edit";
+            return "/edit";
 
         userServicesImp.update(id,user);
         return "redirect:/index";

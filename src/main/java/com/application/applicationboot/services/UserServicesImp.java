@@ -24,9 +24,7 @@ public class UserServicesImp implements UserService {
     }
 
 
-
     @Override
-    @Transactional
     public List<User> findAll() {
 
         return userRepository.findAll();
@@ -47,7 +45,7 @@ public class UserServicesImp implements UserService {
     @Override
     @Transactional
     public void update(long id, User updateUser) {
-        updateUser.setId(id);
+        updateUser.setId(updateUser.getId());
         userRepository.save(updateUser);
     }
 

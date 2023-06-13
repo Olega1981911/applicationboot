@@ -6,18 +6,18 @@
     <title>New User</title>
 </head>
 <body>
-<form th:method="POST" th:action="@{/index}" th:object="${person}">
+<form th:method="POST" th:action="@{/adduser}" th:object="${person}">
     <input type="hidden" name="_method" value="post"/>
     <label for="name">Enter name: </label>
-    <input type="text" th:field="*{name}" id="name"/>
+    <input type="text" th:field="*{name}" id="name" th:value="*{getName()}"/>
     <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
     <br/>
     <label for="age">Enter age: </label>
-    <input type="text" th:field="*{age}" id="age"/>
+    <input type="text" th:field="*{age}" id="age" th:value="*{getAge()}"/>
     <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</div>
     <br/>
     <label for="email">Enter email: </label>
-    <input type="text" th:field="*{email}" id="email"/>
+    <input type="text" th:field="*{email}" id="email" th:value="*{getEmail()}"/>
     <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
     <br/>
     <input type="submit" value="Create!"/>
